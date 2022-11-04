@@ -1,24 +1,22 @@
-##
-
 ```bash
 
-This is a simple REST API that uses NestJs.
+# This is a simple REST API that uses NestJs.
 It uses Prisma ORM.
 Following Routes are implemented:
 
-POST /register
+# POST /register
 Body: { email: "user@domain.com", password: "password" }
 Returns: { user: { id: 1, email: "user@domain.com" } }
 
-POST /login
+# POST /login
 Body: { email: "user@domain.com", password: "password" }
 Returns: { jwt: "JWT" }
 
-GET /user
+# GET /user
 Headers: Authorization: Bearer <JWT>
 Returns: { user: { id: 1, email: "user@domain.com" } }
 
-POST /create-task
+# POST /create-task
 Headers: Authorization: Bearer <JWT>
 Body: { name: "Task name" }
 Returns: { task: { id: 1, name: "Task name" } }
