@@ -1,11 +1,13 @@
+import { Injectable } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient({
   errorFormat: 'minimal',
 });
 
+@Injectable()
 export class UserRepo {
-  static async add(email: string, password: string) {
+  async add(email: string, password: string) {
     try {
       return await prisma.user.create({
         data: {
@@ -21,7 +23,7 @@ export class UserRepo {
     }
   }
 
-  static async fetchByEmail(email: string) {
+  async fetchByEmail(email: string) {
     try {
       return await prisma.user.findUnique({
         where: {

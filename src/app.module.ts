@@ -9,11 +9,13 @@ import { UserService } from './app/services/user.service';
 import { LoggerMiddleware } from './web/authMiddleware';
 import { TaskController } from './web/controllers/task.controller';
 import { TaskService } from './app/services/task.service';
+import { UserRepo } from './infra/UserRepo';
+import { TaskRepo } from './infra/TaskRepo';
 
 @Module({
   imports: [],
   controllers: [UserController, TaskController],
-  providers: [UserService, TaskService],
+  providers: [UserService, TaskService, UserRepo, TaskRepo],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

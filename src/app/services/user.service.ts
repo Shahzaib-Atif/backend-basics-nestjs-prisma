@@ -9,6 +9,7 @@ const jwtSecret = process.env.SECRET_KEY;
 
 @Injectable()
 export class UserService {
+  constructor(readonly userRepo: UserRepo) {}
   async registerUser(dto: RegisterUserdDto): Promise<any> {
     const { email, password } = dto;
     // const userEntity = new UserEntity(email, password)
@@ -18,13 +19,13 @@ export class UserService {
     Even though doing so will complicate this simple application, it can be done if required.
      */
     const hashedPassword = await bcrypt.hash(password, 10); // first hash the password
-    const user = await UserRepo.add(email, hashedPassword);
+    const user = await this.userRepo.add(email, hashedPassword);
     return RegisterUserdDto.serialize(user);
   }
 
   async loginUser(dto: LoginUserDto): Promise<any> {
     const { email, password } = dto;
-    const hash = (await UserRepo.fetchByEmail(email)).password;
+    const hash = (await this.userRepo.fetchByEmail(email)).password;
     const isPassCorrect = await bcrypt.compare(password, hash);
     if (!isPassCorrect)
       throw new HttpException('Password Incorrect', HttpStatus.UNAUTHORIZED);
@@ -35,7 +36,7 @@ export class UserService {
   }
 
   async fetchUser(dto: FetchUserDto): Promise<any> {
-    const user = await UserRepo.fetchByEmail(dto.email);
+    const user = await this.userRepo.fetchByEmail(dto.email);
     return { user: { id: user.id, email: user.email } };
   }
 }

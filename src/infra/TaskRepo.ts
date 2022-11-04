@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { UserRepo } from './UserRepo';
@@ -5,10 +6,12 @@ const prisma = new PrismaClient({
   errorFormat: 'minimal',
 });
 
+@Injectable()
 export class TaskRepo {
-  static async add(name: string, userEmail: string) {
+  constructor(readonly userRepo: UserRepo) {}
+  async add(name: string, userEmail: string) {
     try {
-      const user = await UserRepo.fetchByEmail(userEmail);
+      const user = await this.userRepo.fetchByEmail(userEmail);
       if (!user)
         throw new HttpException('user not found', HttpStatus.NOT_FOUND);
 
@@ -36,7 +39,7 @@ export class TaskRepo {
     }
   }
 
-  static async fetchAllTasks(userEmail: string) {
+  async fetchAllTasks(userEmail: string) {
     try {
       return await prisma.task.findMany({
         skip: 0, // start from this number
