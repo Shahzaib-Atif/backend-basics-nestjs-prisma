@@ -1,7 +1,10 @@
+## Simple Todo Rest Api
+
 ```bash
 
-# This is a simple REST API that uses NestJs.
-It uses Prisma ORM.
+# This is a simple todo REST API in Node.js that uses NestJs and Prisma ORM.
+# It also uses jwt authentication and password hashing.
+
 Following Routes are implemented:
 
 # POST /register
